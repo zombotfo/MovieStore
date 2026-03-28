@@ -28,7 +28,7 @@ export default function Register() {
         width: "320px",
         boxShadow: "0 10px 30px rgba(0,0,0,0.3)"
       }}>
-        <h2>Register</h2>
+        <h2 style={{ color: "black" }}>Register</h2>
 
         <input placeholder="Username"
           style={{ width: "100%",

@@ -13,6 +13,8 @@ import Profile from "./pages/Profile"
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 
+import './App.css'  // ✅ เช็คว่ามี import นี้ไหม?
+import './index.css' // อันนี้อยู่ใน main.jsx แล้ว ไม่ต้องซ้ำ
 
 function App() {
   const [movies, setMovies] = useState([]);

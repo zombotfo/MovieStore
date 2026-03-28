@@ -16,7 +16,7 @@ export default function ForgotPassword() {
 
   return (
     <div style={box}>
-      <h2>Forgot Password</h2>
+      <h2 style={{ color: "black" }}>Forgot Password</h2>
 
       <input
         placeholder="Email"

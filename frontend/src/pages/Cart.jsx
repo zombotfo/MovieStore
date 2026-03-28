@@ -68,7 +68,7 @@ export default function Cart({ cart, removeFromCart, clearCart }) {
       padding: "30px",
       borderRadius: "15px",
       boxShadow: "0 10px 30px rgba(0,0,0,0.2)"}}>
-      <h1>Cart Page</h1>
+      <h1 style={{ color: "black" }}>Cart Page</h1>
 
       {cart.map((item, index) => (
         <div style={{color: "black"}} key={index}>

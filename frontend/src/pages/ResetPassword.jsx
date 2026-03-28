@@ -22,7 +22,7 @@ export default function ResetPassword() {
 
   return (
     <div style={box}>
-      <h2>Reset Password</h2>
+      <h2 style={{ color: "black" }}>Reset Password</h2>
 
       <input
         type="password"

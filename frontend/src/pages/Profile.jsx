@@ -32,7 +32,7 @@ export default function Profile({ user, setUser }) {
       borderRadius: "12px",
       color: "black"
     }}>
-      <h2>Edit Profile</h2>
+      <h2 style={{ color: "black" }}>Edit Profile</h2>
 
       <input
         value={username}

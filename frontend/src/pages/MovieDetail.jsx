@@ -51,7 +51,7 @@ export default function MovieDetail({ addToCart }) {
 
         {/* 📄 ข้อมูล */}
         <div style={{ color: "white" }}>
-          <h1 style={{ marginBottom: "10px" }}>{movie.title}</h1>
+          <h1 style={{ marginBottom: "10px", color: "Black" }}>{movie.title}</h1>
 
           <p style={{
             color: "#ccc",
