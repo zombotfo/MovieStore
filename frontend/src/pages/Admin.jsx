@@ -84,9 +84,9 @@ export default function Admin() {
 
   return (
     <div style={{ padding: "200px", background: "#f5f7fa" }}>
-      <h1>Admin Dashboard</h1>
+      <h1 style={{ color: "black" }}>Admin Dashboard</h1>
 
-      <h2>Add Movie</h2>
+      <h2 style={{ color: "black" }}>Add Movie</h2>
       <input placeholder="Title" onChange={e => setTitle(e.target.value)} />
       <input placeholder="Price" onChange={e => setPrice(e.target.value)} />
       <input placeholder="Image URL" onChange={e => setImage(e.target.value)} />
@@ -97,7 +97,7 @@ export default function Admin() {
 
       <hr />
 
-      <h2>All Movies</h2>
+      <h2 style={{ color: "black" }}>All Movies</h2>
       {movies.map(movie => (
         <div key={movie._id} style={{ marginBottom: "10px", color: "black" }}>
           {movie.title} - ${movie.price}
@@ -120,7 +120,7 @@ export default function Admin() {
 
       <hr />
 
-      <h2>Create Coupon</h2>
+      <h2 style={{ color: "black" }}>Create Coupon</h2>
       <input placeholder="Code" onChange={e => setCode(e.target.value)} />
       <input placeholder="Discount" onChange={e => setDiscount(e.target.value)} />
 
@@ -129,7 +129,7 @@ export default function Admin() {
 
       <hr />
 
-      <h2>Orders</h2>
+      <h2 style={{ color: "black" }}>Orders</h2>
       {orders.map(order => (
         <div key={order._id} style={{ marginBottom: "20px" }}>
           <h3 style={{ color: "black" }}>User: {order.userId}</h3>
