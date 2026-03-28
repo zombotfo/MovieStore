@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import API_URL from "../api";
 
 export default function ResetPassword() {
   const { token } = useParams();
@@ -9,7 +10,7 @@ export default function ResetPassword() {
   const handleReset = async () => {
     try {
       await axios.post(
-        `http://localhost:5000/auth/reset-password/${token}`,
+        `${API_URL}/auth/reset-password/${token}`,
         { password }
       );
 

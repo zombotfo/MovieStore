@@ -1,13 +1,14 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import API_URL from "../api";
 
 export default function MovieDetail({ addToCart }) {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/movies")
+    axios.get(`${API_URL}/movies`)
       .then(res => {
         const found = res.data.find(m => m._id === id);
         setMovie(found);

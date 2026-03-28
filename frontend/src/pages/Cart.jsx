@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import API_URL from "../api";
 
 export default function Cart({ cart, removeFromCart, clearCart }) {
 
@@ -13,7 +14,7 @@ export default function Cart({ cart, removeFromCart, clearCart }) {
   const applyCoupon = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5000/coupons/${coupon}` // ✅ แก้ตรงนี้
+        `${API_URL}/coupons/${coupon}` // ✅ แก้ตรงนี้
       );
 
       setDiscount(res.data.discount);
@@ -42,7 +43,7 @@ export default function Cart({ cart, removeFromCart, clearCart }) {
   try {
     const user = JSON.parse(localStorage.getItem("user"));
 
-    await axios.post("http://localhost:5000/orders", {
+    await axios.post(`${API_URL}/orders`, {
       userId: user._id,  // 🔥 ใครซื้อ
       items: cart,       // 🔥 ซื้ออะไร
       total: finalPrice  // 🔥 ราคา

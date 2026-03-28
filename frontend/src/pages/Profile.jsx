@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import API_URL from "../api";
 
 export default function Profile({ user, setUser }) {
   const [username, setUsername] = useState(user?.username || "");
@@ -7,7 +8,7 @@ export default function Profile({ user, setUser }) {
 
   const handleUpdate = async () => {
     try {
-      const res = await axios.put("http://localhost:5000/auth/profile", {
+      const res = await axios.put(`${API_URL}/auth/profile`, {
         id: user._id,
         username,
         age

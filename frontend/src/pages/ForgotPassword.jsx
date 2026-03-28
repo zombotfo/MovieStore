@@ -1,12 +1,13 @@
 import { useState } from "react";
 import axios from "axios";
+import API_URL from "../api";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
 
   const handleSubmit = async () => {
     try {
-      await axios.post("http://localhost:5000/auth/forgot-password", { email });
+      await axios.post(`${API_URL}/auth/forgot-password`, { email });
       alert("Check console for reset link 🔥");
     } catch {
       alert("User not found ❌");

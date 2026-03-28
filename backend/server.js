@@ -10,7 +10,9 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: "https://your-app.vercel.app"
+}));
 app.use(express.json());
 app.use("/auth", authRoutes);
 app.use("/orders", orderRoutes);

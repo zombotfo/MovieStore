@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import API_URL from "../api";
 
 export default function Admin() {
   const [orders, setOrders] = useState([]);
@@ -26,7 +27,7 @@ export default function Admin() {
   // 🔥 เพิ่มหนัง
   const addMovie = async () => {
     try {
-      await axios.post("http://localhost:5000/movies", {
+      await axios.post(`${API_URL}/movies`, {
         title,
         price,
         image,
@@ -43,7 +44,7 @@ export default function Admin() {
   // 🔥 สร้างคูปอง
   const createCoupon = async () => {
     try {
-      await axios.post("http://localhost:5000/coupons", {
+      await axios.post(`${API_URL}/coupons`, {
         code,
         discount
       }, config);
@@ -56,7 +57,7 @@ export default function Admin() {
 
   const deleteMovie = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/movies/${id}`, config);
+      await axios.delete(`${API_URL}/movies/${id}`, config);
       setMovies(movies.filter(movie => movie._id !== id));
     } catch (err) {
       alert("Access denied ❌");
@@ -65,13 +66,13 @@ export default function Admin() {
 
   useEffect(() => {
     // 🔒 เช็คสิทธิ์ก่อนเข้า admin
-    axios.get("http://localhost:5000/auth/admin", config)
+    axios.get(`${API_URL}/auth/admin`, config)
       .then(() => {
         // ✅ ถ้าผ่าน → โหลดข้อมูล
-        axios.get("http://localhost:5000/movies", config)
+        axios.get(`${API_URL}/movies`, config)
           .then(res => setMovies(res.data));
 
-        axios.get("http://localhost:5000/orders", config)
+        axios.get(`${API_URL}/orders`, config)
           .then(res => setOrders(res.data));
       })
       .catch(() => {

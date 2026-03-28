@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import API_URL from "../api";
 
 export default function Login({ setUser }) {
   const [form, setForm] = useState({
@@ -12,7 +13,7 @@ export default function Login({ setUser }) {
   const handleLogin = async () => {
   setLoading(true);
   try {
-    const res = await axios.post("http://localhost:5000/auth/login", form);
+    const res = await axios.post(`${API_URL}/auth/login`, form);
 
     localStorage.setItem("token", res.data.token);
     console.log("LOGIN TOKEN:", res.data.token);

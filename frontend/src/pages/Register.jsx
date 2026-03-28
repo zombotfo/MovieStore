@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import API_URL from "../api";
 
 export default function Register() {
   const [form, setForm] = useState({
@@ -9,7 +10,7 @@ export default function Register() {
   });
 
   const handleSubmit = async () => {
-    await axios.post("http://localhost:5000/auth/register", form);
+    await axios.post(`${API_URL}/auth/register`, form);
     alert("Registered!");
   };
 
