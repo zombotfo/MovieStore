@@ -13,6 +13,7 @@ import Profile from "./pages/Profile"
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 
+
 function App() {
   const [movies, setMovies] = useState([]);
   const [cart, setCart] = useState([]);
