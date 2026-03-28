@@ -42,7 +42,7 @@ export default function Login({ setUser }) {
         width: "320px",
         boxShadow: "0 10px 30px rgba(0,0,0,0.3)"
       }}>
-        <h2>Login</h2>
+        <h2 style={{color: "black"}}>Login</h2>
 
         <input
           placeholder="Email"
