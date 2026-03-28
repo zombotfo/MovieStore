@@ -11,7 +11,7 @@ dotenv.config();
 
 const app = express();
 app.use(cors({
-  origin: "https://movie-store-git-main-teerapats-projects-3fd85181.vercel.app"
+  origin: "https://movie-store-snowy-zeta.vercel.app"
 }));
 app.use(express.json());
 app.use("/auth", authRoutes);
