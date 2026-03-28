@@ -12,8 +12,8 @@ export default function Home({ movies, addToCart }) {
   };
   
   return (
-    <div style={{ padding: "40px", background: "#f5f7fa", minHeight: "100vh" }}>
-      <h1 style={{ textAlign: "center", marginBottom: "30px" }}>
+    <div style={{ padding: "40px", minHeight: "100vh" }}>
+      <h1 style={{ textAlign: "center", marginBottom: "30px" , color: "white"}}>
         🎬 Movie Store
       </h1>
 
@@ -24,11 +24,13 @@ export default function Home({ movies, addToCart }) {
       }}>
         {movies.map(movie => (
           <div key={movie._id} style={{
-            background: "white",
+            background: "rgba(255,255,255,0.05)",
             borderRadius: "15px",
             overflow: "hidden",
-            boxShadow: "0 5px 15px rgba(0,0,0,0.1)",
+            boxShadow: "0 8px 25px rgba(0,0,0,0.5)",
+            backdropFilter: "blur(10px)",
             transition: "0.3s",
+            cursor: "pointer"
           }}>
             <img
               src={movie.image}
@@ -40,19 +42,19 @@ export default function Home({ movies, addToCart }) {
                 to={`/movie/${movie._id}`}
                 style={{ textDecoration: "none", color: "#030303" }}
               >
-                <h3 style={{ cursor: "pointer" }}>
+                <h3 style={{ color: "white" }}>
                 {movie.title}
                 </h3>
               </Link>
-              <p style={{ color: "#030303" }}>{movie.price} $</p>
+              <p style={{ color: "#ccc" }}>{movie.price} $</p>
 
               <button
                 onClick={() => addToCart(movie)}
                 style={{
                   width: "100%",
                   padding: "10px",
-                  background: "#ffffff",
-                  color: "#000",
+                  background: "#6c5ce7",
+                  color: "white",
                   border: "none",
                   borderRadius: "8px",
                   cursor: "pointer"

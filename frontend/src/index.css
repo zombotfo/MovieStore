@@ -52,10 +52,10 @@
 
 body {
   margin: 0;
-  padding: 0;
-  background-color: #38096d;
-  color: white;
-  font-family: Arial, sans-serif;
+  font-family: "Segoe UI", sans-serif;
+
+  background: linear-gradient(135deg, #1e1e2f, #2a0a4a);
+  min-height: 100vh;
 }
 
 #root {
@@ -112,4 +112,9 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
+}
+
+button:hover {
+  opacity: 0.9;
+  transform: scale(1.03);
 }

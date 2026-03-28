@@ -31,11 +31,40 @@ router.post("/login", async (req, res) => {
 
   const user = await User.findOne({ email });
 
-  if (!user) return res.status(400).json({ message: "User not found" });
+  if (!user) {
+    return res.status(400).json({ message: "User not found" });
+  }
+
+  // ✅ เช็คว่าถูกล็อกอยู่ไหม
+  if (user.lockUntil && user.lockUntil > Date.now()) {
+    return res.status(403).json({
+      message: "บัญชีถูกล็อก กรุณาลองใหม่ในอีก 5 นาที"
+    });
+  }
 
   const isMatch = await bcrypt.compare(password, user.password);
 
-  if (!isMatch) return res.status(400).json({ message: "Wrong password" });
+  // ❌ ถ้ารหัสผิด
+  if (!isMatch) {
+    user.loginAttempts += 1;
+
+    // 🔒 ครบ 3 ครั้ง → ล็อก
+    if (user.loginAttempts >= 3) {
+      user.lockUntil = Date.now() + 5 * 60 * 1000; // 5 นาที
+      user.loginAttempts = 0; // reset
+    }
+
+    await user.save();
+
+    return res.status(400).json({
+      message: "Email or password incorrect"
+    });
+  }
+
+  // ✅ login สำเร็จ → reset
+  user.loginAttempts = 0;
+  user.lockUntil = null;
+  await user.save();
 
   const token = jwt.sign(
     { id: user._id },
@@ -104,6 +133,42 @@ router.put("/profile", async (req, res) => {
     res.json(user);
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+router.get("/admin", async (req, res) => {
+  console.log("🔥 ADMIN ROUTE HIT");
+
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+
+    console.log("TOKEN:", token); // 👈 เพิ่มอันนี้
+
+    if (!token) {
+      return res.status(401).json({ message: "No token" });
+    }
+
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    console.log("DECODED:", decoded); // 👈 เพิ่ม
+
+    const user = await User.findById(decoded.id);
+
+    console.log("EMAIL DB:", user?.email); // 👈 เพิ่ม
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (user.email.trim().toLowerCase() !== "admin@gmail.com") {
+      return res.status(403).json({ message: "Access denied" });
+    }
+
+    res.json({ message: "Welcome admin 🔥" });
+
+  } catch (err) {
+    console.log("ERROR:", err.message); // 👈 สำคัญ
+    res.status(401).json({ message: "Invalid token" });
   }
 });
 

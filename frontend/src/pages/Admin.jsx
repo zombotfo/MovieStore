@@ -3,126 +3,144 @@ import axios from "axios";
 
 export default function Admin() {
   const [orders, setOrders] = useState([]);
+  const [movies, setMovies] = useState([]);
 
-  // 🎬 state เพิ่มหนัง
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
 
-  const [movies, setMovies] = useState([]);
-
-  // 🎟️ state คูปอง
   const [code, setCode] = useState("");
   const [discount, setDiscount] = useState("");
 
+  // ✅ ดึง token
+  const token = localStorage.getItem("token");
+
+  // 🔒 config axios (ใส่ header ทุกครั้ง)
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  };
+
   // 🔥 เพิ่มหนัง
   const addMovie = async () => {
-    await axios.post("http://localhost:5000/movies", {
-      title,
-      price,
-      image,
-      description
-    });
+    try {
+      await axios.post("http://localhost:5000/movies", {
+        title,
+        price,
+        image,
+        description
+      }, config);
 
-    alert("Movie added!");
-    window.location.reload(); // 🔥 รีเฟรชให้ Home อัปเดต
+      alert("Movie added!");
+      window.location.reload();
+    } catch (err) {
+      alert("Access denied ❌");
+    }
   };
 
   // 🔥 สร้างคูปอง
   const createCoupon = async () => {
-    await axios.post("http://localhost:5000/coupons", {
-      code,
-      discount
-    });
+    try {
+      await axios.post("http://localhost:5000/coupons", {
+        code,
+        discount
+      }, config);
 
-    alert("Coupon created!");
+      alert("Coupon created!");
+    } catch (err) {
+      alert("Access denied ❌");
+    }
   };
 
   const deleteMovie = async (id) => {
-    await axios.delete(`http://localhost:5000/movies/${id}`);
-
-    // อัปเดตหน้าทันที
-    setMovies(movies.filter(movie => movie._id !== id));
+    try {
+      await axios.delete(`http://localhost:5000/movies/${id}`, config);
+      setMovies(movies.filter(movie => movie._id !== id));
+    } catch (err) {
+      alert("Access denied ❌");
+    }
   };
 
-
   useEffect(() => {
-  axios.get("http://localhost:5000/movies")
-    .then(res => setMovies(res.data));
+    // 🔒 เช็คสิทธิ์ก่อนเข้า admin
+    axios.get("http://localhost:5000/auth/admin", config)
+      .then(() => {
+        // ✅ ถ้าผ่าน → โหลดข้อมูล
+        axios.get("http://localhost:5000/movies", config)
+          .then(res => setMovies(res.data));
 
-  axios.get("http://localhost:5000/orders")
-    .then(res => setOrders(res.data));
+        axios.get("http://localhost:5000/orders", config)
+          .then(res => setOrders(res.data));
+      })
+      .catch(() => {
+        alert("คุณไม่มีสิทธิ์เข้า Admin ❌");
+        window.location.href = "/"; // เด้งกลับหน้า home
+      });
+
   }, []);
 
   return (
-  <div style={{ padding: "200px" ,background: "#f5f7fa"}}>
-    <h1>Admin Dashboard</h1>
+    <div style={{ padding: "200px", background: "#f5f7fa" }}>
+      <h1>Admin Dashboard</h1>
 
-    {/* 🎬 เพิ่มหนัง */}
-    <h2>Add Movie</h2>
-    <input placeholder="Title" onChange={e => setTitle(e.target.value)} />
-    <input placeholder="Price" onChange={e => setPrice(e.target.value)} />
-    <input placeholder="Image URL" onChange={e => setImage(e.target.value)} />
-    <input placeholder="Description" onChange={e => setDescription(e.target.value)} />
+      <h2>Add Movie</h2>
+      <input placeholder="Title" onChange={e => setTitle(e.target.value)} />
+      <input placeholder="Price" onChange={e => setPrice(e.target.value)} />
+      <input placeholder="Image URL" onChange={e => setImage(e.target.value)} />
+      <input placeholder="Description" onChange={e => setDescription(e.target.value)} />
 
-    <br /><br />
+      <br /><br />
+      <button onClick={addMovie}>Add Movie</button>
 
-    <button onClick={addMovie}>Add Movie</button>
+      <hr />
 
-    <hr />
+      <h2>All Movies</h2>
+      {movies.map(movie => (
+        <div key={movie._id} style={{ marginBottom: "10px", color: "black" }}>
+          {movie.title} - ${movie.price}
 
-    {/* 🔥 แสดงหนัง + ลบ */}
-    <h2>All Movies</h2>
+          <button
+            onClick={() => deleteMovie(movie._id)}
+            style={{
+              marginLeft: "10px",
+              backgroundColor: "red",
+              color: "white",
+              border: "none",
+              padding: "5px 10px",
+              cursor: "pointer"
+            }}
+          >
+            Delete
+          </button>
+        </div>
+      ))}
 
-    {movies.map(movie => (
-      <div key={movie._id} style={{ marginBottom: "10px" ,color: "Black"}}>
-        {movie.title} - ${movie.price}
+      <hr />
 
-        <button
-          onClick={() => deleteMovie(movie._id)}
-          style={{
-            marginLeft: "10px",
-            backgroundColor: "red",
-            color: "white",
-            border: "none",
-            padding: "5px 10px",
-            cursor: "pointer"
-          }}
-        >
-          Delete
-        </button>
-      </div>
-    ))}
+      <h2>Create Coupon</h2>
+      <input placeholder="Code" onChange={e => setCode(e.target.value)} />
+      <input placeholder="Discount" onChange={e => setDiscount(e.target.value)} />
 
-    <hr />
+      <br /><br />
+      <button onClick={createCoupon}>Create Coupon</button>
 
-    {/* 🎟️ คูปอง */}
-    <h2>Create Coupon</h2>
+      <hr />
 
-    <input placeholder="Code" onChange={e => setCode(e.target.value)} />
-    <input placeholder="Discount" onChange={e => setDiscount(e.target.value)} />
+      <h2>Orders</h2>
+      {orders.map(order => (
+        <div key={order._id} style={{ marginBottom: "20px" }}>
+          <h3 style={{ color: "black" }}>User: {order.userId}</h3>
+          <p style={{ color: "black" }}>Total: ${order.total}</p>
 
-    <br /><br />
-    <button onClick={createCoupon}>Create Coupon</button>
-
-    <hr />
-
-    {/* 🧾 Orders */}
-    <h2>Orders</h2>
-
-    {orders.map(order => (
-      <div key={order._id} style={{ marginBottom: "20px" }}>
-        <h3 style={{color: "Black"}}>User: {order.userId}</h3>
-        <p style={{color: "Black"}}>Total: ${order.total}</p>
-
-        {order.items.map((item, i) => (
-          <div style={{color: "Black"}} key={i}>
-            {item.title}
-          </div>
-        ))}
-      </div>
-    ))}
-  </div>
-);
+          {order.items.map((item, i) => (
+            <div style={{ color: "black" }} key={i}>
+              {item.title}
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
 }

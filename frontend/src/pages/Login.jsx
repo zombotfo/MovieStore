@@ -7,53 +7,80 @@ export default function Login({ setUser }) {
     email: "",
     password: ""
   });
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
-    try {
-      const res = await axios.post("http://localhost:5000/auth/login", form);
+  setLoading(true);
+  try {
+    const res = await axios.post("http://localhost:5000/auth/login", form);
 
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      setUser(res.data.user);
+    localStorage.setItem("token", res.data.token);
+    console.log("LOGIN TOKEN:", res.data.token);
+    localStorage.setItem("user", JSON.stringify(res.data.user));
+    setUser(res.data.user);
 
-      alert("Login success!");
-    } catch (err) {
-      alert("Email or password incorrect ❌");
-    }
-  };
+    alert("Login success!");
+  } catch (err) {
+    const message = err.response?.data?.message || "Something went wrong";
+    alert(message);
+  }
+  setLoading(false);
+};
 
   return (
     <div style={{
       display: "flex",
-      background: "#f5f7fa",
       justifyContent: "center",
-      marginTop: "100px"
+      alignItems: "center",
+      height: "80vh"
     }}>
       <div style={{
-        border: "1px solid #ddd",
-        background: "#f5f7fa",
-        padding: "30px",
-        borderRadius: "10px",
-        width: "300px",
-        textAlign: "center"
+        background: "white",
+        padding: "40px",
+        borderRadius: "15px",
+        width: "320px",
+        boxShadow: "0 10px 30px rgba(0,0,0,0.3)"
       }}>
         <h2>Login</h2>
 
         <input
           placeholder="Email"
-          style={{ width: "100%", marginBottom: "10px" }}
+          style={{
+            width: "100%",
+            padding: "10px",
+            marginBottom: "10px",
+            borderRadius: "8px",
+             border: "1px solid #ccc"
+          }}
           onChange={e => setForm({...form, email: e.target.value})}
         />
 
         <input
           type="password"
           placeholder="Password"
-          style={{ width: "100%", marginBottom: "10px" }}
+          style={{
+            width: "100%",
+            padding: "10px",
+            marginBottom: "10px",
+            borderRadius: "8px",
+            border: "1px solid #ccc"
+           }}
           onChange={e => setForm({...form, password: e.target.value})}
         />
 
-        <button onClick={handleLogin} style={{ width: "100%" }}>
-          Login
+        <button 
+          onClick={handleLogin}
+          disabled={loading}
+          style={{
+            width: "100%",
+            padding: "10px",
+            background: loading ? "gray" : "#6c5ce7",
+            color: "white",
+            border: "none",
+            borderRadius: "8px"
+          }}
+>
+          {loading ? "Loading..." : "Login"}
         </button>
 
         <p style={{ marginTop: "10px", textAlign: "right" }}>

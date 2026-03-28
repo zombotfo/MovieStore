@@ -61,7 +61,12 @@ export default function Cart({ cart, removeFromCart, clearCart }) {
   };
 
   return (
-    <div style={{ padding: "200px" ,background: "#f5f7fa"}}>
+    <div style={{ maxWidth: "600px",
+      margin: "50px auto",
+      background: "white",
+      padding: "30px",
+      borderRadius: "15px",
+      boxShadow: "0 10px 30px rgba(0,0,0,0.2)"}}>
       <h1>Cart Page</h1>
 
       {cart.map((item, index) => (

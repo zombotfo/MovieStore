@@ -12,14 +12,15 @@ export default function Navbar({ cartCount, user, setUser }) {
     <div style={{
       display: "flex",
       justifyContent: "space-between",
-      alignItems: "center",
-      padding: "15px 40px",
-      background: "linear-gradient(90deg, #1e3c72, #2a5298)",
+      padding: "15px 30px",
+      background: "rgba(0,0,0,0.6)",
+      backdropFilter: "blur(10px)",
       color: "white",
-      boxShadow: "0 4px 10px rgba(0,0,0,0.2)"
+      position: "sticky",
+      top: 0
     }}>
       {/* LOGO */}
-      <h2 style={{ margin: 0 }}>🎬 Movie Store</h2>
+      <h2 style={{ margin: 0 , color: "white"}}>Movie Store</h2>
 
       {/* MENU */}
       <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>

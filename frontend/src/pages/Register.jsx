@@ -15,33 +15,50 @@ export default function Register() {
 
   return (
     <div style={{
-      background: "#f5f7fa",
       display: "flex",
       justifyContent: "center",
-      marginTop: "100px"
+      alignItems: "center",
+      height: "80vh"
     }}>
       <div style={{
-        border: "1px solid #ffffff",
-        padding: "30px",
-        borderRadius: "10px",
-        width: "300px",
-        textAlign: "center"
+       background: "white",
+        padding: "40px",
+        borderRadius: "15px",
+        width: "320px",
+        boxShadow: "0 10px 30px rgba(0,0,0,0.3)"
       }}>
         <h2>Register</h2>
 
         <input placeholder="Username"
-          style={{ width: "100%", marginBottom: "10px" }}
+          style={{ width: "100%",
+            padding: "10px",
+            marginBottom: "10px",
+            borderRadius: "8px",
+             border: "1px solid #ccc" }}
           onChange={e => setForm({...form, username: e.target.value})} />
 
         <input placeholder="Email"
-          style={{ width: "100%", marginBottom: "10px" }}
+          style={{ width: "100%",
+            padding: "10px",
+            marginBottom: "10px",
+            borderRadius: "8px",
+             border: "1px solid #ccc" }}
           onChange={e => setForm({...form, email: e.target.value})} />
 
         <input type="password" placeholder="Password"
-          style={{ width: "100%", marginBottom: "10px" }}
+          style={{ width: "100%",
+            padding: "10px",
+            marginBottom: "10px",
+            borderRadius: "8px",
+             border: "1px solid #ccc" }}
           onChange={e => setForm({...form, password: e.target.value})} />
 
-        <button onClick={handleSubmit} style={{ width: "100%" }}>
+        <button onClick={handleSubmit} style={{ width: "100%",
+          padding: "10px",
+          background: "#6c5ce7",
+          color: "white",
+          border: "none",
+          borderRadius: "8px" }}>
           Register
         </button>
       </div>
